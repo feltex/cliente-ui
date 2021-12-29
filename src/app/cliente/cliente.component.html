@@ -1,0 +1,131 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" style="color:white;" (click)="listar()">Clientes</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02"
+          aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarColor02">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" (click)="add()">+ Cliente<span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <input type="search" (change)="filtrar(key.value)" #key placeholder="Search cliente..." required>
+    </form>
+  </div>
+</nav>
+<div class="container" id="main-container">
+  <div class="row">
+    <div *ngFor="let cliente of clientes" class="col-md-6 col-xl-3">
+      <div class="card m-b-30">
+        <div class="card-body row">
+          <div class="col-6">
+            <a href=""><img src="https://github.com/feltex/app-data/blob/main/imagens/clientes/avatar1.png?raw=true"
+                            alt="" class="img-fluid rounded-circle w-60"></a>
+          </div>
+          <div class="col-6 card-title align-self-center mb-0">
+            <h5>{{cliente?.nome}}</h5>
+            <p class="m-0">{{cliente?.email}}</p>
+          </div>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><i class="fa fa-envelope float-right"></i>{{cliente?.email}}</li>
+          <li class="list-group-item"><i class="fa fa-phone float-right"></i>Telefone: {{cliente?.telefone}}</li>
+        </ul>
+        <div class="card-body">
+          <div class="float-right btn-group btn-group-sm">
+            <a (click)="abrirDetalhe(cliente, 'edit')" class="btn btn-primary tooltips" data-placement="top"
+               data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+            <a (click)="abrirDetalhe(cliente, 'delete')" class="btn btn-secondary tooltips" data-placement="top"
+               data-original-title="Delete"><i class="fa fa-times"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="clienteModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="clienteLabel">Manutenção de Cliente</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #addForm="ngForm" (ngSubmit)="salvarCliente(addForm)">
+            <div class="form-group">
+              <label for="clienteId">Nome</label>
+              <input type="hidden" ngModel name="clienteId" class="form-control" id="clienteId"
+                     value="{{clienteSelecionado?.id}}">
+            </div>
+            <div class="form-group">
+              <label for="nome">Nome</label>
+              <input type="text" ngModel name="nome" class="form-control" id="nome" value="{{clienteSelecionado?.nome}}"
+                     placeholder="Nome" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" ngModel name="email" class="form-control" id="email"
+                     value="{{clienteSelecionado?.email}}" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+              <label for="matricula">Matricula</label>
+              <input type="text" ngModel name="matricula" class="form-control" value="{{clienteSelecionado?.matricula}}"
+                     id="matricula" placeholder="Matrícula"
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="telefone">Telefone</label>
+              <input type="text" ngModel name="telefone" class="form-control" value="{{clienteSelecionado?.telefone}}"
+                     id="telefone" placeholder="telefone"
+                     required>
+            </div>
+            <div class="form-group">
+              <label for="imagem">Image URL</label>
+              <input type="text" ngModel name="imagem" class="form-control" id="imagem" placeholder="imagem" required>
+            </div>
+            <div class="modal-footer">
+              <button type="button" id="btnFechar" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button  type="submit" class="btn btn-primary">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="deleteClienteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+       aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModelLabel">Delete Employee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Confirma a exclusão do Cliente {{clienteSelecionado?.nome}}?</p>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+            <button (click)="deletar(clienteSelecionado?.id)" class="btn btn-danger" data-dismiss="modal">Sim</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Notification for no Clientes -->
+<div *ngIf="clientes?.length === 0" class="col-lg-12 col-md-12 col-xl-12">
+  <div class="alert alert-info" role="alert">
+    <h4 class="alert-heading">Sem clientes!</h4>
+    <p>Não há cliente cadastrado.</p>
+  </div>
+</div>
