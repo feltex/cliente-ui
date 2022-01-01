@@ -15,7 +15,7 @@
     </form>
   </div>
 </nav>
-<div class="container" id="main-container">
+<div class="container" id="divPrincipal" #divPrincipal>
   <div class="row">
     <div *ngFor="let cliente of clientes" class="col-md-6 col-xl-3">
       <div class="card m-b-30">
@@ -30,15 +30,16 @@
           </div>
         </div>
         <ul class="list-group list-group-flush">
-          <li class="list-group-item"><i class="fa fa-envelope float-right"></i>{{cliente?.email}}</li>
-          <li class="list-group-item"><i class="fa fa-phone float-right"></i>Telefone: {{cliente?.telefone}}</li>
+          <li class="list-group-item"><em class="fa fa-envelope float-right"></em>{{cliente?.email}}</li>
+          <li class="list-group-item"><em class="fa fa-phone float-right"></em>Telefone: {{cliente?.telefone}}</li>
+          <li class="list-group-item"><em class="fa fa-calendar float-right"></em>Cadastro: {{cliente?.dataCadastro | date: 'dd/MM/yyyy HH:mm:ss'}}</li>
         </ul>
         <div class="card-body">
           <div class="float-right btn-group btn-group-sm">
             <a (click)="abrirDetalhe(cliente, 'edit')" class="btn btn-primary tooltips" data-placement="top"
-               data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
+               data-original-title="Edit"><em class="fa fa-pencil"></em> </a>
             <a (click)="abrirDetalhe(cliente, 'delete')" class="btn btn-secondary tooltips" data-placement="top"
-               data-original-title="Delete"><i class="fa fa-times"></i></a>
+               data-original-title="Delete"><em class="fa fa-times"></em></a>
           </div>
         </div>
       </div>
@@ -58,39 +59,36 @@
         <div class="modal-body">
           <form #addForm="ngForm" (ngSubmit)="salvarCliente(addForm)">
             <div class="form-group">
-              <label for="clienteId">Nome</label>
-              <input type="hidden" ngModel name="clienteId" class="form-control" id="clienteId"
-                     value="{{clienteSelecionado?.id}}">
-            </div>
-            <div class="form-group">
               <label for="nome">Nome</label>
-              <input type="text" ngModel name="nome" class="form-control" id="nome" value="{{clienteSelecionado?.nome}}"
-                     placeholder="Nome" required>
+              <input type="text" [(ngModel)]="clienteSelecionado.nome" name="nome" class="form-control" id="nome"
+              placeholder="Nome" required>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" ngModel name="email" class="form-control" id="email"
-                     value="{{clienteSelecionado?.email}}" placeholder="Email" required>
+              <input type="email" name="email" class="form-control" id="email"
+                     [(ngModel)]="clienteSelecionado.email" placeholder="Email" required>
             </div>
             <div class="form-group">
               <label for="matricula">Matricula</label>
-              <input type="text" ngModel name="matricula" class="form-control" value="{{clienteSelecionado?.matricula}}"
+              <input type="text" name="matricula" class="form-control"
+                     [(ngModel)]="clienteSelecionado.matricula"
                      id="matricula" placeholder="Matrícula"
                      required>
             </div>
             <div class="form-group">
               <label for="telefone">Telefone</label>
-              <input type="text" ngModel name="telefone" class="form-control" value="{{clienteSelecionado?.telefone}}"
+              <input type="text" name="telefone" class="form-control"
+                     [(ngModel)]="clienteSelecionado.telefone"
                      id="telefone" placeholder="telefone"
                      required>
             </div>
             <div class="form-group">
-              <label for="imagem">Image URL</label>
-              <input type="text" ngModel name="imagem" class="form-control" id="imagem" placeholder="imagem" required>
+              <label><strong>Data Cadastro</strong></label>
+              <strong class="fa fa-calendar float-right"></strong>: {{clienteSelecionado?.dataCadastro | date: 'dd/MM/yyyy HH:mm:ss'}}
             </div>
             <div class="modal-footer">
-              <button type="button" id="btnFechar" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-              <button  type="submit" class="btn btn-primary">Salvar</button>
+              <button type="button" id="btnFechar" #btnFechar class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Salvar</button>
             </div>
           </form>
         </div>
@@ -119,7 +117,6 @@
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- Notification for no Clientes -->

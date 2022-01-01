@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Cliente} from "../modelo/cliente";
 import {ClienteService} from "../service/cliente.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgForm} from "@angular/forms";
+
 
 @Component({
   selector: 'app-cliente',
@@ -10,12 +11,13 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./cliente.component.css']
 })
 export class ClienteComponent implements OnInit {
-
   constructor(private clienteService: ClienteService) {
   }
 
+  @ViewChild('btnFechar') private btnFechar!: ElementRef<HTMLElement>;
+  @ViewChild('divPrincipal') private divPrincipal!: ElementRef<HTMLElement>;
   public clientes: Cliente[] = [];
-  public clienteSelecionado: Cliente | undefined;
+  public clienteSelecionado: Cliente = ClienteComponent.criarCliente();
 
   ngOnInit(): void {
     this.listar();
@@ -33,20 +35,11 @@ export class ClienteComponent implements OnInit {
   }
 
   public add() {
-    const cliente: Cliente = {
-      dataCadastro: "",
-      email: "",
-      id: 0,
-      matricula: "",
-      nome: "",
-      telefone: ""
-    }
-    this.clienteSelecionado = cliente;
+    this.clienteSelecionado = ClienteComponent.criarCliente();
     this.abrirDetalhe(this.clienteSelecionado, 'add');
   }
 
   public abrirDetalhe(cliente: Cliente, operacao: string) {
-    const container = document.getElementById('main-container');
     const button = document.createElement('button');
     button.type = 'button';
     button.style.display = 'none';
@@ -62,8 +55,7 @@ export class ClienteComponent implements OnInit {
       this.clienteSelecionado = cliente;
       button.setAttribute('data-target', '#deleteClienteModal');
     }
-    // @ts-ignore
-    container.appendChild(button);
+    this.divPrincipal.nativeElement.appendChild(button);
     button.click();
 
   }
@@ -72,10 +64,10 @@ export class ClienteComponent implements OnInit {
     console.log(termo);
     const results: Cliente[] = [];
     for (const cliente of this.clientes) {
-      if (cliente.nome.toLowerCase().indexOf(termo.toLowerCase()) !== -1
-        || cliente.email.toLowerCase().indexOf(termo.toLowerCase()) !== -1
-        || cliente.telefone.toLowerCase().indexOf(termo.toLowerCase()) !== -1
-        || cliente.matricula.toLowerCase().indexOf(termo.toLowerCase()) !== -1) {
+      if (cliente.nome?.toLowerCase().indexOf(termo.toLowerCase()) !== -1
+        || cliente.email?.toLowerCase().indexOf(termo.toLowerCase()) !== -1
+        || cliente.telefone?.toLowerCase().indexOf(termo.toLowerCase()) !== -1
+        || cliente.matricula?.toLowerCase().indexOf(termo.toLowerCase()) !== -1) {
         results.push(cliente);
       }
     }
@@ -86,20 +78,21 @@ export class ClienteComponent implements OnInit {
   }
 
   public salvarCliente(clienteForm: NgForm) {
-    // @ts-ignore
-    document.getElementById('btnFechar').click();
-    this.clienteService.adicionar(clienteForm.value).subscribe(
-      (response: Cliente) => {
-        console.log(response);
-        this.listar();
-        clienteForm.reset();
-      },
-      (error: HttpErrorResponse) => {
-        alert(error.message);
-        clienteForm.reset();
-      }
-    );
 
+    this.btnFechar.nativeElement.click();
+    if (this.clienteSelecionado) {
+      this.clienteService.adicionar(this.clienteSelecionado).subscribe(
+        (response: Cliente) => {
+          console.log(response);
+          this.listar();
+          clienteForm.reset();
+        },
+        (error: HttpErrorResponse) => {
+          alert(error.message);
+          clienteForm.reset();
+        }
+      );
+    }
   }
 
   public deletar(id: number | undefined): void {
@@ -114,6 +107,16 @@ export class ClienteComponent implements OnInit {
         }
       );
     }
+  }
 
+  static criarCliente(): Cliente {
+    return {
+      dataCadastro: "",
+      email: "",
+      id: 0,
+      matricula: "",
+      nome: "",
+      telefone: ""
+    }
   }
 }
