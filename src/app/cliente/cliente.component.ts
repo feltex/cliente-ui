@@ -2,8 +2,6 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {Cliente} from "../modelo/cliente";
 import {ClienteService} from "../service/cliente.service";
 import {HttpErrorResponse} from "@angular/common/http";
-import {NgForm} from "@angular/forms";
-
 
 @Component({
   selector: 'app-cliente',
@@ -18,6 +16,8 @@ export class ClienteComponent implements OnInit {
   @ViewChild('divPrincipal') private divPrincipal!: ElementRef<HTMLElement>;
   public clientes: Cliente[] = [];
   public clienteSelecionado: Cliente = ClienteComponent.criarCliente();
+  private arquivoSelecionado: File | undefined;
+
 
   ngOnInit(): void {
     this.listar();
@@ -77,19 +77,28 @@ export class ClienteComponent implements OnInit {
     }
   }
 
-  public salvarCliente(clienteForm: NgForm) {
+  public salvarCliente() {
+    const formData = new FormData();
+
+    if (!this.arquivoSelecionado && !this.clienteSelecionado.foto) {
+      console.log("Arquivo não selecionado!");
+      return;
+    }
+
+    // @ts-ignore
+    formData.append('file', this.arquivoSelecionado || this.clienteSelecionado.foto);
+
 
     this.btnFechar.nativeElement.click();
     if (this.clienteSelecionado) {
-      this.clienteService.adicionar(this.clienteSelecionado).subscribe(
+      this.clienteService.salvar(this.clienteSelecionado, formData).subscribe(
         (response: Cliente) => {
           console.log(response);
           this.listar();
-          clienteForm.reset();
+          ClienteComponent.criarCliente();
         },
         (error: HttpErrorResponse) => {
           alert(error.message);
-          clienteForm.reset();
         }
       );
     }
@@ -118,5 +127,14 @@ export class ClienteComponent implements OnInit {
       nome: "",
       telefone: ""
     }
+  }
+
+  selecionarArquivo(event: Event) {
+    // @ts-ignore
+    this.arquivoSelecionado = event.target.files[0];
+  }
+
+  exibirImagem(foto: any) {
+    return 'data:image/jpeg;base64,' + foto;
   }
 }

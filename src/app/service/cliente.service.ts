@@ -16,9 +16,24 @@ export class ClienteService {
     return this.http.get<Cliente[]>(`${this.apiServiceUrl}/api/clientes`)
   }
 
-  public adicionar(cliente: Cliente): Observable<Cliente> {
-    return this.http.post<Cliente>(`${this.apiServiceUrl}/api/clientes`, cliente);
+  public salvar(cliente: Cliente, formData: FormData): Observable<Cliente> {
 
+    if (cliente.id) {
+      return this.atualizar(cliente, formData);
+    } else {
+      return this.adicionar(cliente, formData);
+    }
+
+  }
+
+  private adicionar(cliente: Cliente, formData: FormData): Observable<Cliente> {
+    formData.append("clienteData", JSON.stringify(cliente))
+    return this.http.post<Cliente>(`${this.apiServiceUrl}/api/clientes`, formData);
+  }
+
+  private atualizar(cliente: Cliente, formData: FormData): Observable<Cliente> {
+    formData.append("clienteData", JSON.stringify(cliente))
+    return this.http.put<Cliente>(`${this.apiServiceUrl}/api/clientes`, formData);
   }
 
   public deletar(id: number) {

@@ -21,8 +21,7 @@
       <div class="card m-b-30">
         <div class="card-body row">
           <div class="col-6">
-            <a href=""><img src="https://github.com/feltex/app-data/blob/main/imagens/clientes/avatar1.png?raw=true"
-                            alt="" class="img-fluid rounded-circle w-60"></a>
+            <a href=""><img class="resize" [src]="exibirImagem(cliente.foto)" alt=""></a>
           </div>
           <div class="col-6 card-title align-self-center mb-0">
             <h5>{{cliente?.nome}}</h5>
@@ -32,7 +31,9 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item"><em class="fa fa-envelope float-right"></em>{{cliente?.email}}</li>
           <li class="list-group-item"><em class="fa fa-phone float-right"></em>Telefone: {{cliente?.telefone}}</li>
-          <li class="list-group-item"><em class="fa fa-calendar float-right"></em>Cadastro: {{cliente?.dataCadastro | date: 'dd/MM/yyyy HH:mm:ss'}}</li>
+          <li class="list-group-item"><em
+            class="fa fa-calendar float-right"></em>Cadastro: {{cliente?.dataCadastro | date: 'dd/MM/yyyy HH:mm:ss'}}
+          </li>
         </ul>
         <div class="card-body">
           <div class="float-right btn-group btn-group-sm">
@@ -57,11 +58,11 @@
           </button>
         </div>
         <div class="modal-body">
-          <form #addForm="ngForm" (ngSubmit)="salvarCliente(addForm)">
+          <form >
             <div class="form-group">
               <label for="nome">Nome</label>
               <input type="text" [(ngModel)]="clienteSelecionado.nome" name="nome" class="form-control" id="nome"
-              placeholder="Nome" required>
+                     placeholder="Nome" required>
             </div>
             <div class="form-group">
               <label for="email">Email</label>
@@ -83,12 +84,24 @@
                      required>
             </div>
             <div class="form-group">
+              <label>Foto</label>
+              <input type="file" style="display: none" (change)="selecionarArquivo($event)" #fileUpload
+                     accept=".png, .jpg, .jpeg, .pdf"/>
+              <button mat-mini-fab color="primary" class="upload-btn">
+                <span class="material-icons" (click)="fileUpload.click()">upload_file</span>
+              </button>
+            </div>
+            <div class="form-group">
               <label><strong>Data Cadastro</strong></label>
-              <strong class="fa fa-calendar float-right"></strong>: {{clienteSelecionado?.dataCadastro | date: 'dd/MM/yyyy HH:mm:ss'}}
+              <strong
+                class="fa fa-calendar float-right"></strong>: {{clienteSelecionado?.dataCadastro | date: 'dd/MM/yyyy HH:mm:ss'}}
             </div>
             <div class="modal-footer">
-              <button type="button" id="btnFechar" #btnFechar class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-              <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Salvar</button>
+              <button type="button" id="btnFechar" #btnFechar class="btn btn-secondary" data-dismiss="modal">Fechar
+              </button>
+              <button type="button" (click)="salvarCliente()"
+                      class="btn btn-primary">Salvar
+              </button>
             </div>
           </form>
         </div>

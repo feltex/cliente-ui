@@ -4,5 +4,6 @@ export interface Cliente {
   nome?: string;
   telefone?: string;
   email?: string;
+  foto?: File;
   dataCadastro?: string;
 }
