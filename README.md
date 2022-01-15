@@ -1,8 +1,13 @@
 # ClienteUi
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.9.
+  Este projeto realiza o cadastro de Clientes em uma base de dados MySQL. 
 
-## Development server
+
+## Pré Requisitos
+
+ - Angular 12
+ - Código no GitHub UI Angular [Feltex](https://github.com/feltex/cliente-ui)
+ - Código no GitHub API Java com Spring Boot [Feltex](https://github.com/feltex/cliente-api)
 
 
 ## Criar imagem Docker
@@ -10,3 +15,21 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
     docker build -t andrefelix/cliente-ui:V1  .
 
     docker push andrefelix/cliente-ui:V1
+
+
+## Criando o jar
+  
+    mvn clean package
+
+## Executando o projeto
+
+```
+    ng serve 
+```
+
+## Utilizando a aplicação
+
+```
+  http://localhost:4200/  
+``` 
+
