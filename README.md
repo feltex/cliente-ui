@@ -3,6 +3,9 @@
   Este projeto realiza o cadastro de Clientes em uma base de dados MySQL.
 
 
+  ![CadastroDeClientes](CadastroClientes.png)
+
+
 ## Pré Requisitos
 
  - Angular 12
