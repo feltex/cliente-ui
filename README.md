@@ -1,6 +1,7 @@
 # ClienteUi
 
-  Este projeto realiza o cadastro de Clientes em uma base de dados MySQL.
+  Este projeto realiza o cadastro de Clientes em uma base de dados MySQL. O projeto é desenvolvido em [Angular](https://github.com/feltex/cliente-ui)
+e consume uma API desenvolvida em [Java](https://github.com/feltex/cliente-api)
 
 
   ![CadastroDeClientes](CadastroClientes.png)
