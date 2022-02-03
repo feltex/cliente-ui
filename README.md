@@ -16,7 +16,7 @@ e consume uma API desenvolvida em [Java](https://github.com/feltex/cliente-api)
 
 ## Pré Requisitos
 
- - Angular 12
+ - [Angular 12](https://www.youtube.com/playlist?list=PLoBE72jMC_aL2-KIxOjBNxnoaDcvjGyhd)
  - UI: Código no GitHub Angular [Feltex](https://github.com/feltex/cliente-ui)
  - API: Código no GitHub API Java com Spring Boot [Feltex](https://github.com/feltex/cliente-api)
  - [MySQL](https://www.mysql.com/)
