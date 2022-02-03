@@ -19,9 +19,22 @@ e consume uma API desenvolvida em [Java](https://github.com/feltex/cliente-api)
  - [Angular 12](https://www.youtube.com/playlist?list=PLoBE72jMC_aL2-KIxOjBNxnoaDcvjGyhd)
  - UI: Código no GitHub Angular [Feltex](https://github.com/feltex/cliente-ui)
  - API: Código no GitHub API Java com Spring Boot [Feltex](https://github.com/feltex/cliente-api)
- - [MySQL](https://www.mysql.com/)
- - [Docker](https://www.docker.com/) 
- - [Docker Compose](https://docs.docker.com/compose/install/)  
+
+
+## Iniciar a API de Clientes
+
+ Há 2 formas de iniciar a API
+ 
+1.   Acessando a pasta docker do projeto UI e executar o comando abaixo: 
+   
+```
+   docker-compose  up
+```
+ 
+ 
+2. Se você tiver algum conhecimento em Java acesse o projeto [cliente-api](https://github.com/feltex/cliente-api/blob/main/README.md) e siga as instruções 
+ **Iniciar a aplicação**.
+  
 
 
 ## Criar imagem Docker
